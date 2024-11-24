@@ -1,0 +1,14 @@
+{% extends "menu.html" %}
+
+{% block page-name %}
+    <h1>Продукты</h1>
+{% endblock %}
+
+{% block content %}
+    <ul>
+    {% for product in mydict %}
+        <li><p>Продукт: {{ product.title }} | Стоимость: {{ product.cost }} <button>Купить</button></p></li>
+    {% endfor %}
+    </ul>
+    <button><a href="{% url 'main_page' %}">Вернуться обратно</a></button>
+{% endblock %}
