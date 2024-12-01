@@ -424,6 +424,4 @@ response for a detailed example)
 Приложение 2
 ![Приложение2](https://github.com/user-attachments/assets/945db3f9-85f2-48b9-ba7f-a6ea80a5ea20)
 
-
-
 👨‍💻 Спасибо за внимание!
