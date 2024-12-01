@@ -19,12 +19,30 @@ router = APIRouter(prefix="/user", tags=["user"])
 
 @router.get("/")
 async def all_users(db: Annotated[Session, Depends(get_db)]):
+    """
+        Возвращает всех пользователей из базы данных.
+        Args:
+            db (Session): Объект сессии SQLAlchemy.
+        Returns:
+            list: Список всех пользователей.
+        """
     users = db.scalars(select(User)).all()
     return users
 
 
 @router.get("/user_id")
 async def user_by_id(db: Annotated[Session, Depends(get_db)], user_id: int):
+    """
+        Возвращает пользователя по ID.
+        Args:
+            db (Session): Объект сессии SQLAlchemy.
+            user_id (int): ID пользователя.
+        Returns:
+            User: Пользователь с заданным ID.
+        Raises:
+            HTTPException: Если пользователь не найден (404).
+        """
+
     user = db.scalar(select(User).where(User.id == user_id))
     if user is None:
         raise HTTPException(
@@ -50,6 +68,14 @@ def tasks_by_user_id(db: Annotated[Session, Depends(get_db)], user_id: int):
 
 @router.post("/create")
 async def create_user(db: Annotated[Session, Depends(get_db)], create_user: CreateUser):
+    """
+        Создает нового пользователя.
+        Args:
+            db (Session): Объект сессии SQLAlchemy.
+            create_user (CreateUser): Данные для создания пользователя (Pydantic schema).
+        Returns:
+            dict: Сообщение об успешном создании пользователя.
+        """
     db.execute(insert(User).values(username=create_user.username,
                                    firstname=create_user.firstname,
                                    lastname=create_user.lastname,
@@ -68,6 +94,15 @@ async def create_user(db: Annotated[Session, Depends(get_db)], create_user: Crea
 
 @router.put("/update")
 async def update_user(db: Annotated[Session, Depends(get_db)], user_id: int, update_user: UpdateUser):
+    """
+       Обновляет данные существующего пользователя.
+       Args:
+           db (Session): Объект сессии SQLAlchemy.
+           user_id (int): ID пользователя для обновления.
+           update_user (UpdateUser): Данные для обновления пользователя (Pydantic schema).
+       Raises:
+           HTTPException: 404, если пользователь не найден.
+       """
     user = db.scalar(select(User).where(User.id == user_id))
     if user is None:
         raise HTTPException(
@@ -75,7 +110,8 @@ async def update_user(db: Annotated[Session, Depends(get_db)], user_id: int, upd
             detail='Пользователь не найден'
         )
 
-    db.execute(update(User).where(User.id == user_id).values(firstname=update_user.firstname,
+    db.execute(update(User).where(User.id == user_id).values(username=update_user.username,
+                                                             firstname=update_user.firstname,
                                                              lastname=update_user.lastname,
                                                              age=update_user.age,
                                                              email=update_user.email))
@@ -84,6 +120,16 @@ async def update_user(db: Annotated[Session, Depends(get_db)], user_id: int, upd
 
 @router.delete("/delete")
 async def delete_user(db: Annotated[Session, Depends(get_db)], user_id: int):
+    """
+        Удаляет пользователя по ID.
+        Args:
+            db (Session): Объект сессии SQLAlchemy.
+            user_id (int): ID пользователя для удаления.
+        Returns:
+            dict: Сообщение об успешном удалении пользователя.
+        Raises:
+            HTTPException: 404, если пользователь не найден.
+        """
     user = db.scalars(select(User).where(User.id == user_id))
     if user is None:
         raise HTTPException(

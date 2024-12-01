@@ -17,7 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from task.views import Main_page_cl, menu_def, main_page_def, register, registration_complete, menu_def_2
+"""
+    URL-шаблоны для приложения.
 
+    Назначает URL-адреса для различных представлений:
+    - admin/: Админ-панель Django.
+    - '': Главная страница (Main_page_cl).
+    - main_page/nutrio/: Страница с продуктами нутрициологии (menu_def_2).
+    - main_page/cardio/: Страница с продуктами кардиологии (menu_def).
+    - main_page/: Главная страница (main_page_def).
+    - main_page/registration_page/: Страница регистрации (register).
+    - main_page/registration_compl/: Страница подтверждения регистрации (registration_complete).
+    """
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Main_page_cl.as_view()),

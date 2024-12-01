@@ -4,6 +4,19 @@ from sqlalchemy.orm import relationship
 
 
 class Task(Base):
+    """
+        Представляет задачу в базе данных.
+        Атрибуты:
+            id (int): Уникальный идентификатор задачи.
+            title (str): Заголовок задачи.
+            content (str): Содержание или описание задачи.
+            priority (int): Уровень приоритета задачи (более высокое значение означает более высокий приоритет). По умолчанию 0.
+            completed (bool): Поле, указывающее, завершена ли задача. По умолчанию False.
+            user_id (int): ID пользователя, которому принадлежит задача. Внешний ключ, ссылающийся на таблицу `users`.
+            slug (str): Уникальный URL-дружественный идентификатор задачи.
+            user: Отношение SQLAlchemy к модели User, предоставляющее доступ к объекту пользователя, связанному с задачей.
+
+        """
     __tablename__ = "tasks"
     __table_args__ = {"keep_existing": True}
     id = Column(Integer, primary_key=True, index=True)
@@ -18,4 +31,5 @@ class Task(Base):
 
 
 from sqlalchemy.schema import CreateTable
+
 print(CreateTable(Task.__table__))
