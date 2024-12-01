@@ -18,6 +18,7 @@ pip install django
 python manage.py runserver 
 
 Введите в адресной строке /admin, переход в админ панель. логин: test, пароль: 1234
+![Админка 1](https://github.com/user-attachments/assets/3de6aefc-9605-46b5-8361-ae51a3f0cef5)
 
 SQLAlchemy_ORM Используйте тот же
 репозиторий:
